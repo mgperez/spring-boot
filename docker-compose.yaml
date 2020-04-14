@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+    front:
+        #    network_mode: host
+        image: mgperez/serving-web-content
+        container_name: front
+        tty: true # Needed to ensure container doesn't self terminate
+        environment: 
+            BACK_HOST: back:8081 # IP network externa
+            #CONFIG_LOCATION: file:/config/application.yml
+            #LOGGING_LOCATION: file:/config/logback-spring.xml
+        volumes:
+            - ./data/front/config:/config
+        links:
+            - back:back
+        privileged: true
+        ports: ['5000:8080'] # host:container
+        depends_on:
+            - back
+        healthcheck:
+            test: ["CMD-SHELL", "curl -f http://127.0.0.1:8080/actuator/health || exit 1"]
+            interval: 10s
+            timeout: 1s
+            retries: 66
+        networks:
+            - quarkus
+
+    back:
+        #    network_mode: host
+        image: mgperez/gs-spring-boot-docker
+        container_name: back
+        tty: true # Needed to ensure container doesn't self terminate
+        privileged: true
+        ports: ['8081:8081'] # host:container
+        healthcheck:
+            test: ["CMD-SHELL", "curl -f http://127.0.0.1:8081/springmvc-resttemplate-test/actuator/health || exit 1"]
+            interval: 10s
+            timeout: 1s
+            retries: 66
+        networks:
+            - quarkus
+
+networks:
+    quarkus:
+        driver: bridge

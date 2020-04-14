@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  front:
+    #    network_mode: host
+    image: mgperez/serving-web-content
+    container_name: front
+    tty: true # Needed to ensure container doesn't self terminate
+    environment: 
+      BACK_HOST: back:8081 # IP network externa
+    volumes:
+      - ./data/front/config:/config
+    privileged: true
+    ports: ['8080:8080']  # host:container
+    healthcheck:
+      #test: ["CMD", "curl", "--fail", "--silent", "localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8080/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    networks:
+      - quarkus
+
+networks:
+  quarkus:
+    driver: bridge

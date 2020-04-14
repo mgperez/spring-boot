@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  back:
+    #    network_mode: host
+    image: mgperez/gs-spring-boot-docker
+    container_name: back
+    tty: true # Needed to ensure container doesn't self terminate
+    privileged: true
+    ports: ['8081:8081']  # host:container
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8081/springmvc-resttemplate-test/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    networks:
+      - quarkus
+
+networks:
+  quarkus:
+    driver: bridge
