@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<wildfly-maven-plugin.version>2.1.0.Beta1</wildfly-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -79,6 +80,12 @@
 					<image>mgperez/serving-web-content</image>
 				</to>
 				</configuration>
+			</plugin>
+			<!-- mvn package wildfly:undeploy -->
+			<plugin>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<version>${wildfly-maven-plugin.version}</version>
 			</plugin>
 		</plugins>
 	</build>

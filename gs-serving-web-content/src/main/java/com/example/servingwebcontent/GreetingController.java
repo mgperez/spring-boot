@@ -38,12 +38,12 @@ public class GreetingController {
         //final String uri = "http://localhost:8080/springrestexample/employees.xml";
 
         String uri = new String("http://" + mRESTServer.getHost() +
-                "/springmvc-resttemplate-test/");
+                mRESTServer.getContextPath());
         try {
             String result = restTemplate.getForObject(uri, String.class);
 
             System.out.println(result);
-            return result;
+            return result+": ("+uri+")";
 
         } catch (HttpClientErrorException e) {
             /**

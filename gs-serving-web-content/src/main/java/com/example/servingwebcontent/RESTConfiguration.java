@@ -17,6 +17,7 @@ public class RESTConfiguration
     {
         return new RESTServer(env.getProperty("rest.user"),
                 env.getProperty("rest.password"),
-                env.getProperty("rest.host"));
+                env.getProperty("rest.host"),
+                env.getProperty("rest.contextPath"));
     }
 }

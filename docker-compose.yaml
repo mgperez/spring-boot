@@ -24,7 +24,7 @@ services:
             timeout: 1s
             retries: 66
         networks:
-            - quarkus
+            - spring
 
     back:
         #    network_mode: host
@@ -39,8 +39,8 @@ services:
             timeout: 1s
             retries: 66
         networks:
-            - quarkus
+            - spring
 
 networks:
-    quarkus:
+    spring:
         driver: bridge
